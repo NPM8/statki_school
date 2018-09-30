@@ -4,6 +4,11 @@ rules:
     - true
     - single
     - avoid-escape
+  variable-name:
+    - true
+    - allow-leading-underscore
+    - allow-pascal-case
+    - ban-keywords
   max-line-length:
     options: [120]
   new-parens: true
@@ -20,6 +25,6 @@ rules:
     - time
     - timeEnd
     - trace
-jsRules:
-  max-line-length:
-    options: [120]
+#jsRules:
+#  max-line-length:
+#    options: [280]
