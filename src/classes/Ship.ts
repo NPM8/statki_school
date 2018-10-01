@@ -53,10 +53,10 @@ export default class Ship {
                 case 'UP':
                     for (let i = 0; i < this.Size; i++) {
                         const tmp: IPosition = {
-                            x: this._Position.x + i,
+                            x: this._Position.x - i,
                             y: this._Position.y,
                         };
-                        console.log(tmp);
+                        // console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
@@ -64,10 +64,10 @@ export default class Ship {
                 case 'DOWN':
                     for (let i = 0; i < this.Size; i++) {
                         const tmp: IPosition = {
-                            x: this._Position.x - i,
+                            x: this._Position.x + i,
                             y: this._Position.y,
                         };
-                        console.log(tmp);
+                        // console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
@@ -78,7 +78,7 @@ export default class Ship {
                             x: this._Position.x,
                             y: this._Position.y - i,
                         };
-                        console.log(tmp);
+                        // console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
@@ -89,7 +89,7 @@ export default class Ship {
                             x: this._Position.x,
                             y: this._Position.y + i,
                         };
-                        console.log(tmp);
+                        // console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
