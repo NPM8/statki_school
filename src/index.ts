@@ -1,10 +1,13 @@
-import Ship from './classes/Ship';
+import Playground from './classes/Playground';
+import './style/index.css';
 
-let test: string = 'Hello world';
 
-function init() {
-    const ship = new Ship(5);
-    ship.sound();
-}
+const test: string = 'Hello world';
 
-init();
+(function init() {
+    const playground = new Playground({
+        size: [ 10, 10 ],
+        ships: [[ 1, 4], [4, 1]],
+    });
+    playground.init(document.getElementById('root'));
+})();

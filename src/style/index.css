@@ -1,0 +1,25 @@
+:root {
+    --black-class-backgrond-color: #111;
+    --white-class-background-color: #fff;
+    --size: 20px;
+}
+
+#root {
+    display: grid;
+    grid-template-columns: repeat(10, var(--size));
+    grid-template-rows: repeat(10, var(--size));
+}
+
+#root  div {
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+}
+
+.black {
+    background: var(--black-class-backgrond-color);
+}
+
+.white {
+    background: var(--white-class-background-color);
+}

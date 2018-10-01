@@ -15,11 +15,11 @@ export default class Ship {
     set Direction(value: string) {
         this._Direction = value;
     }
-    get Position(): IPosition {
+    public get Position(): IPosition {
         return this._Position;
     }
 
-    set Position(value: IPosition) {
+    public set Position(value: IPosition) {
         this._Position = value;
     }
 
@@ -40,9 +40,11 @@ export default class Ship {
 
     constructor(size: number) {
         this.Size = size;
+        this._Elems = [];
     }
 
     public setShip(Array: number[][], direction?: string): number[][] {
+        // console.log('Array in Ships', Array);
         if (this.Size === 1) {
             Array[this._Position.x][this._Position.y] = 1;
             return Array;
@@ -54,6 +56,7 @@ export default class Ship {
                             x: this._Position.x + i,
                             y: this._Position.y,
                         };
+                        console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
@@ -64,6 +67,7 @@ export default class Ship {
                             x: this._Position.x - i,
                             y: this._Position.y,
                         };
+                        console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
@@ -74,6 +78,7 @@ export default class Ship {
                             x: this._Position.x,
                             y: this._Position.y - i,
                         };
+                        console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
@@ -84,6 +89,7 @@ export default class Ship {
                             x: this._Position.x,
                             y: this._Position.y + i,
                         };
+                        console.log(tmp);
                         Array[tmp.x][tmp.y] = 1;
                         this._Elems.push(tmp);
                     }
