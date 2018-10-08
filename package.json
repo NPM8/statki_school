@@ -18,7 +18,8 @@
   },
   "scripts": {
     "start": "webpack",
-    "dev": "webpack-dev-server --color"
+    "dev": "webpack-dev-server --color",
+    "puppeteer": "node puppeter"
   },
   "repository": {
     "type": "git",
