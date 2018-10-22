@@ -1,19 +1,47 @@
 :root {
     --black-class-backgrond-color: #111;
     --white-class-background-color: #fff;
+    --blue-class-background-color: #66a6fd;
+    --green-class-background-color: #51fd37;
+    --red-class-background-color: #ff565e;
     --size: 20px;
 }
 
 #root {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 20% 40% auto;
+}
+
+#bot  div {
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+}
+#bot {
     display: grid;
     grid-template-columns: repeat(10, var(--size));
     grid-template-rows: repeat(10, var(--size));
 }
 
-#root  div {
+#player  div {
     width: 100%;
     height: 100%;
-    border: 1px solid red;
+    border: 1px solid #2019ff;
+}
+#player {
+    display: grid;
+    grid-template-columns: repeat(10, var(--size));
+    grid-template-rows: repeat(10, var(--size));
+}
+
+.base  {
+    width: var(--size);
+    border: 1px solid black;
+    margin: 0;
+    height: var(--size);
+    background: white;
 }
 
 .black {
@@ -22,4 +50,32 @@
 
 .white {
     background: var(--white-class-background-color);
+}
+
+.ship-hnadler {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding: 10px;
+    justify-content: flex-start;
+}
+
+.blue {
+    background: var(--blue-class-background-color);
+}
+
+.green {
+    background: var(--green-class-background-color) !important;
+}
+
+.green-ship {
+    background: var(--green-class-background-color) !important;
+}
+
+.red-ship {
+    background: var(--red-class-background-color) !important;
+}
+
+.disabled {
+    background: coral;
 }

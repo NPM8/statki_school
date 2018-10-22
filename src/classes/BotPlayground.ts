@@ -1,5 +1,5 @@
-import Playground from "./Playground";
 import IPosition from '../interfaces/IPosition';
+import Playground from './Playground';
 // import {extends} from 'tslint/lib/configs/latest';
 enum EDirection {
     UP = 1,
@@ -10,14 +10,14 @@ enum EDirection {
 
 export default class BotPlayground extends Playground {
 
-    private init(x: Element): void {
+    public init(): void {
         for (const ship of this.Ships) {
             // console.table(this.PlayArray);
             let random: boolean = true;
             let iter: number = 0;
             while (random) {
                 iter++;
-                if (iter === this.Size[0] * this.Size[1]) throw Error('something went wrong');
+                if (iter === this.Size[0] * this.Size[1]) { throw Error('something went wrong'); }
                 const tmpPos: IPosition = this.GenRandomPosition();
                 if (this.PlayArray[tmpPos.x][tmpPos.y] === 1 ) {
                     continue;
@@ -41,7 +41,7 @@ export default class BotPlayground extends Playground {
                 } else {
                     ship.Position = tmpPos;
                     let Direction: string;
-                    Direction = EDirection[Math.floor(Math.random() * 4 + 1)];
+                    Direction = EDirection[Math.floor(Math.random() * 2 + 1)];
                     switch (Direction) {
                         case 'UP':
                             if (ship.Position.x - ship.size + 1 >= 0) {
@@ -151,6 +151,28 @@ export default class BotPlayground extends Playground {
         }
     }
 
+    public setPlaypool(x: HTMLDivElement): void {
+        this.init();
+        this.draw(x);
+    }
+
+    public allowClick() {
+        for (const child of this.MainElement.children) {
+            // @ts-ignore
+            child.onclick = this.setLisner.bind(this);
+        }
+    }
+
+    public botMove() {
+        let tmpPos: IPosition;
+        do {
+           tmpPos = this.GenRandomPosition();
+        } while (!this.GameObject.playerPlayground.checkMove(tmpPos));
+
+        this.GameObject.playerPlayground.makeMove(tmpPos);
+        setTimeout(() => this.clickPosibilyty = !this.clickPosibilyty, 500);
+    }
+
     private GenRandomPosition(): IPosition {
         const toRet: IPosition = {
             x: null, y: null,
@@ -163,4 +185,30 @@ export default class BotPlayground extends Playground {
         return toRet;
     }
 
+    private setLisner(evt: Event): void {
+        evt.preventDefault();
+        let test: boolean = false;
+        let indexes: [number, number] ;
+        this.ElemsArray.forEach((value, index) => {
+           value.forEach((value1, index1) => {
+               if (value1 === evt.target) {
+                   test = true;
+                   indexes = [index, index1];
+               }
+           });
+        });
+        if (test && this.clickPosibilyty) {
+            console.log('test');
+            if (this.PlayArray[indexes[0]][indexes[1]] === 0) {
+                // @ts-ignore
+                evt.target.innerHTML = 'x';
+            } else {
+                // @ts-ignore
+                evt.target.innerHTML = 'o';
+            }
+            this.clickPosibilyty = !this.clickPosibilyty;
+            this.botMove();
+        }
+
+    }
 }
