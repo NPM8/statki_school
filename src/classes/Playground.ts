@@ -1,3 +1,4 @@
+import {logMOve as logMove} from '../decorators/index';
 import IMainElement from '../interfaces/IMainElement';
 import IPlaygraundProps from '../interfaces/IPlaygraundProps';
 import IPosition from '../interfaces/IPosition';
@@ -8,10 +9,10 @@ import Ship from './Ship';
  * BotPlayground class
  */
 export default class Playground {
+    public OCount: number = 0;
 
     protected Size: [number, number];
     protected Ships: Ship[];
-    public OCount: number = 0;
     protected PlayArray: number[][];
     protected ElemsArray: HTMLDivElement[][];
     protected MainElement: IMainElement;
@@ -31,12 +32,13 @@ export default class Playground {
         for (const ship of props.ships) {
             for (let i = 0; i < ship[0]; i++) {
                 const tmp  = new Ship(ship[1]);
+                this.OCount += tmp.size;
                 this.Ships.push(tmp);
             }
         }
-        console.log(this.Ships);
+        // console.log(this.Ships);
         this.Ships.sort((a, b) => b.size - a.size);
-        console.log(this.Ships);
+        // console.log(this.Ships);
         for (let i = 0; i < this.Size[0]; i++) {
             this.PlayArray.push([]);
             for (let j = 0; j < this.Size[1]; j++) {
@@ -49,14 +51,14 @@ export default class Playground {
         }
     }
 
+    @logMove
     public checkMove(pos: IPosition): boolean {
-        console.log('Chcekc move: ', this.ElemsArray[pos.x][pos.y].innerHTML);
         return this.ElemsArray[pos.x][pos.y].innerHTML === '';
     }
 
     public makeMove(pos: IPosition) {
         this.ElemsArray[pos.x][pos.y].innerHTML = (this.PlayArray[pos.x][pos.y] === 0) ? 'x' : 'o';
-        console.log('Make move: ', this.ElemsArray[pos.x][pos.y].innerHTML);
+        return this.ElemsArray[pos.x][pos.y].innerHTML;
     }
 
     public drawTable(x: Element) {
@@ -67,7 +69,7 @@ export default class Playground {
                 const tmpObj = document.createElement('div');
                 tmpObj.classList.add((this.PlayArray[i][j] === 0)  ? 'white' :
                     (this.PlayArray[i][j] === 2) ? 'green' :
-                    (this.PlayArray[i][j] === 3) ? 'red' : 'black');
+                        (this.PlayArray[i][j] === 3) ? 'red' : 'black');
                 this.ElemsArray[i].push(tmpObj);
                 x.appendChild(tmpObj);
             }

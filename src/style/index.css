@@ -1,5 +1,5 @@
 :root {
-    --black-class-backgrond-color: #111;
+    --black-class-backgrond-color: #47a53f;
     --white-class-background-color: #fff;
     --blue-class-background-color: #66a6fd;
     --green-class-background-color: #51fd37;
@@ -23,6 +23,10 @@
     display: grid;
     grid-template-columns: repeat(10, var(--size));
     grid-template-rows: repeat(10, var(--size));
+}
+
+#bot div, #player div {
+    /*color: chartreuse;*/
 }
 
 #player  div {
@@ -77,5 +81,6 @@
 }
 
 .disabled {
-    background: coral;
+    /*background: coral;*/
+    display: none;
 }

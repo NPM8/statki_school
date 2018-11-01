@@ -256,6 +256,7 @@ export default class PlayerPlayground extends Playground {
                 this._SelectedPickerObject.classList.remove('green');
                 this._CountShips++;
                 if (this._CountShips === this.Ships.length) {
+                    alert('Gra się przpoczyna');
                     this.GameObject.startGame();
                 }
 
@@ -275,7 +276,12 @@ export default class PlayerPlayground extends Playground {
         evt.stopPropagation();
         const target = evt.path[0].classList.contains('ship-hnadler') ? evt.path[0] : evt.path[1];
         console.log(target);
-        if (!target.classList.contains('green') && !this._SelectedShipSize && !target.classList.contains('disabled')) {
+        if (!target.classList.contains('green') && !target.classList.contains('disabled')) {
+            if (this._SelectedPickerObject) {
+                this._SelectedPickerObject.classList.remove('green');
+                this._SelectedPickerObject = null;
+                this._SelectedShipSize = null;
+            }
             this._SelectedPickerObject = target;
             this._SelectedShipSize = target.children.length;
             target.classList.add('green');

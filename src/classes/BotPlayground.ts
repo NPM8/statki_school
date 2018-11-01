@@ -1,5 +1,6 @@
 import IPosition from '../interfaces/IPosition';
 import Playground from './Playground';
+
 // import {extends} from 'tslint/lib/configs/latest';
 enum EDirection {
     UP = 1,
@@ -20,9 +21,15 @@ export default class BotPlayground extends Playground {
                 if (iter === this.Size[0] * this.Size[1]) { throw Error('something went wrong'); }
                 const tmpPos: IPosition = this.GenRandomPosition();
                 if (this.PlayArray[tmpPos.x][tmpPos.y] === 1 ) {
-                    continue;
+
                 } else if (ship.size === 1) {
-                    const testArray = this.PlayArray.slice((tmpPos.x - 1 >= 0) ? tmpPos.x - 1 : tmpPos.x, (tmpPos.x + 2 < this.Size[0]) ? tmpPos.x + 2 : tmpPos.x + 1 ).map((p) => {
+                    const testArray = this.PlayArray.slice((tmpPos.x - 1 >= 0)
+                        ? tmpPos.x - 1
+                        : tmpPos.x,
+                        (tmpPos.x + 2 < this.Size[0])
+                            ? tmpPos.x + 2
+                            : tmpPos.x + 1)
+                        .map((p) => {
                         if (tmpPos.y === 0) {
                             return p.slice(0, 2);
                         } else if (tmpPos.y === this.Size[1] - 1) {
@@ -35,8 +42,6 @@ export default class BotPlayground extends Playground {
                         ship.Position = tmpPos;
                         ship.setShip(this.PlayArray);
                         random = false;
-                    } else {
-                        continue;
                     }
                 } else {
                     ship.Position = tmpPos;
@@ -166,11 +171,18 @@ export default class BotPlayground extends Playground {
     public botMove() {
         let tmpPos: IPosition;
         do {
-           tmpPos = this.GenRandomPosition();
+            tmpPos = this.GenRandomPositionW();
         } while (!this.GameObject.playerPlayground.checkMove(tmpPos));
 
-        this.GameObject.playerPlayground.makeMove(tmpPos);
-        setTimeout(() => this.clickPosibilyty = !this.clickPosibilyty, 500);
+        if (this.GameObject.playerPlayground.makeMove(tmpPos) === 'o') {
+            this.GameObject.playerPlayground.OCount--;
+        }
+        if (this.GameObject.playerPlayground.OCount === 0) {
+            alert('Bot Wygrał');
+        } else {
+            setTimeout(() => this.clickPosibilyty = !this.clickPosibilyty, 100);
+        }
+
     }
 
     private GenRandomPosition(): IPosition {
@@ -180,6 +192,18 @@ export default class BotPlayground extends Playground {
         toRet.x = Math.abs(Math.floor(Math.random() * this.Size[0]) - 1);
         // toRet.x = (toRet.x < 0) ? 0 : toRet.x;
         toRet.y = Math.abs(Math.floor(Math.random() * this.Size[1]) - 1);
+        // toRet.y = (toRet.y < 0) ? 0 : toRet.y;
+        // console.log('Gen: ', toRet);
+        return toRet;
+    }
+
+    private GenRandomPositionW(): IPosition {
+        const toRet: IPosition = {
+            x: null, y: null,
+        };
+        toRet.x = Math.abs(Math.floor(Math.random() * this.Size[0]));
+        // toRet.x = (toRet.x < 0) ? 0 : toRet.x;
+        toRet.y = Math.abs(Math.floor(Math.random() * this.Size[1]));
         // toRet.y = (toRet.y < 0) ? 0 : toRet.y;
         // console.log('Gen: ', toRet);
         return toRet;
@@ -197,17 +221,23 @@ export default class BotPlayground extends Playground {
                }
            });
         });
-        if (test && this.clickPosibilyty) {
-            console.log('test');
+        if (test && this.clickPosibilyty && (this.ElemsArray[indexes[0]][indexes[1]].innerHTML !== 'x' || this.ElemsArray[indexes[0]][indexes[1]].innerHTML !== 'o')) {
             if (this.PlayArray[indexes[0]][indexes[1]] === 0) {
                 // @ts-ignore
                 evt.target.innerHTML = 'x';
             } else {
+                this.OCount--;
                 // @ts-ignore
                 evt.target.innerHTML = 'o';
             }
             this.clickPosibilyty = !this.clickPosibilyty;
-            this.botMove();
+            if (this.OCount === 0) {
+                alert('Gracz wygrał');
+            } else {
+                this.botMove();
+            }
+        } else if (!this.clickPosibilyty) {
+            alert('Bot Gra!!');
         }
 
     }
