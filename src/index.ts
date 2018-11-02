@@ -8,8 +8,12 @@ import './style/index.css';
     const playerElement = document.createElement('div');
     playerElement.id = 'player';
     const playerPicker = document.createElement('div');
+    const controls = document.createElement('div');
+    controls.id = 'controls';
+
     root.appendChild(playerPicker);
     root.appendChild(playerElement);
+    root.appendChild(controls);
     root.appendChild(botElemnt);
     // playground.init();
     // playground.drawTable(document.getElementById('root'));
@@ -19,5 +23,6 @@ import './style/index.css';
         playerElement,
         botElemnt,
         playerPicker,
+        controls,
     });
 })(document.getElementById('root'));

@@ -169,6 +169,7 @@ export default class BotPlayground extends Playground {
     }
 
     public botMove() {
+        this.GameObject.controls.botMove();
         let tmpPos: IPosition;
         do {
             tmpPos = this.GenRandomPositionW();
@@ -180,7 +181,10 @@ export default class BotPlayground extends Playground {
         if (this.GameObject.playerPlayground.OCount === 0) {
             alert('Bot Wygrał');
         } else {
-            setTimeout(() => this.clickPosibilyty = !this.clickPosibilyty, 100);
+            setTimeout(() => {
+                this.clickPosibilyty = !this.clickPosibilyty;
+                this.GameObject.controls.makeMove();
+            }, 2500);
         }
 
     }
@@ -237,7 +241,7 @@ export default class BotPlayground extends Playground {
                 this.botMove();
             }
         } else if (!this.clickPosibilyty) {
-            alert('Bot Gra!!');
+            this.GameObject.controls.makeItRed();
         }
 
     }

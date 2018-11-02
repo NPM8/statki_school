@@ -5,7 +5,9 @@
     "module": "es6",
     "target": "es6",
     "jsx": "react",
+    "jsxFactory": "jsxHandler.createElement",
     "allowJs": false,
     "experimentalDecorators": true
-  }
+  },
+  "include": ["./src/**/*" ]
 }

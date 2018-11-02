@@ -31,12 +31,13 @@ export default class PlayerPlayground extends Playground {
         for (const ship of this.Ships) {
             const main = document.createElement('div');
             main.classList.add('ship-hnadler');
-            main.addEventListener('mouseenter', this.mouseInShipHnadler);
-            main.addEventListener('mouseleave', this.mouseOutShipHandler);
-            main.addEventListener('click', this.clickShipHandler);
+
             for (let i = 0; i < ship.size; i++) {
                 const tmp = document.createElement('div');
                 tmp.classList.add('base');
+                tmp.addEventListener('mouseenter', this.mouseInShipHnadler);
+                tmp.addEventListener('mouseleave', this.mouseOutShipHandler);
+                tmp.addEventListener('click', this.clickShipHandler);
                 main.appendChild(tmp);
             }
             x.appendChild(main);
@@ -70,12 +71,16 @@ export default class PlayerPlayground extends Playground {
 
     private mouseInShipHnadler(evt: IPlaygroundMouseEvent) {
         evt.stopPropagation();
-        evt.target.classList.add('blue');
+        for (const child of evt.target.parentNode.children) {
+            child.classList.add('blue');
+        }
     }
 
     private mouseOutShipHandler(evt: IPlaygroundMouseEvent) {
         evt.stopPropagation();
-        evt.target.classList.remove('blue');
+        for (const child of evt.target.parentNode.children) {
+            child.classList.remove('blue');
+        }
     }
 
     private tmpSetShip(color: string, ship: Ship, direction: ('UP'|'RIGHT'), position: IPosition) {
@@ -141,8 +146,7 @@ export default class PlayerPlayground extends Playground {
         this._IsPosibleToPlaceShip = false;
     }
 
-    private mouseInPlaygroundHandler(evt: IPlaygroundMouseEvent) {
-        evt.stopPropagation();
+    private setShipOnPlayground(target: HTMLDivElement) {
         const ship = this.Ships.find((value) => {
             if (value.size === this._SelectedShipSize && value.Position == null) {
                 return true;
@@ -155,12 +159,12 @@ export default class PlayerPlayground extends Playground {
 
         const position = {
             x: this.ElemsArray.findIndex((value) => {
-                return !!~value.indexOf(evt.target);
+                return !!~value.indexOf(target);
             }),
             y: 0,
         };
 
-        position.y = this.ElemsArray[position.x].indexOf(evt.target);
+        position.y = this.ElemsArray[position.x].indexOf(target);
 
         this._SelectedPosition = position;
         console.log(position);
@@ -232,6 +236,11 @@ export default class PlayerPlayground extends Playground {
         }
     }
 
+    private mouseInPlaygroundHandler(evt: IPlaygroundMouseEvent) {
+        evt.stopPropagation();
+        this.setShipOnPlayground(evt.target);
+    }
+
     private mouseOutPlaygroundHandler(evt: Event) {
         evt.stopPropagation();
         this.tmpUnSetShip();
@@ -256,7 +265,6 @@ export default class PlayerPlayground extends Playground {
                 this._SelectedPickerObject.classList.remove('green');
                 this._CountShips++;
                 if (this._CountShips === this.Ships.length) {
-                    alert('Gra się przpoczyna');
                     this.GameObject.startGame();
                 }
 
@@ -268,27 +276,35 @@ export default class PlayerPlayground extends Playground {
         evt.preventDefault();
         evt.stopPropagation();
         this._SetShipDirection = (this._SetShipDirection === 'UP') ? 'RIGHT' : 'UP';
-        console.log('test', this._SetShipDirection);
+        console.log('test', evt.target);
+        this.tmpUnSetShip();
+        this.setShipOnPlayground(evt.target);
         // this.mouseInPlaygroundHandler(evt);
     }
 
     private clickShipHandler(evt: IPlaygroundMouseEvent) {
         evt.stopPropagation();
         const target = evt.path[0].classList.contains('ship-hnadler') ? evt.path[0] : evt.path[1];
-        console.log(target);
-        if (!target.classList.contains('green') && !target.classList.contains('disabled')) {
+        // console.log(target);
+        if (!target.children[0].classList.contains('green') && !target.classList.contains('disabled')) {
             if (this._SelectedPickerObject) {
-                this._SelectedPickerObject.classList.remove('green');
+                for (const child of this._SelectedPickerObject.children) {
+                    child.classList.remove('green');
+                }
                 this._SelectedPickerObject = null;
                 this._SelectedShipSize = null;
             }
             this._SelectedPickerObject = target;
             this._SelectedShipSize = target.children.length;
-            target.classList.add('green');
-            target.classList.remove('blue');
+            for (const child of target.children) {
+                child.classList.add('green');
+                child.classList.remove('blue');
+            }
         } else if (target.classList.contains('green')) {
             this._SelectedShipSize = null;
-            target.classList.remove('green');
+            for (const child of target.children) {
+                child.classList.remove('green');
+            }
         }
     }
 }

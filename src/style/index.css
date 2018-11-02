@@ -11,7 +11,7 @@
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: 20% 40% auto;
+    grid-template-columns: 20% 40% 20% auto;
 }
 
 #bot  div {
@@ -27,6 +27,13 @@
 
 #bot div, #player div {
     /*color: chartreuse;*/
+}
+
+#controls {
+    display: flex;
+    width: auto;
+    height: 100%;
+    flex-direction: column;
 }
 
 #player  div {
@@ -83,4 +90,16 @@
 .disabled {
     /*background: coral;*/
     display: none;
+}
+
+.info-text {
+    width: 100%;
+    padding: 10px 0;
+    margin: 0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.info-red {
+    border: 5px solid red;
 }

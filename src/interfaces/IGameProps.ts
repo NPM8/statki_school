@@ -4,4 +4,5 @@ export default interface IGameProps {
     playerElement: HTMLDivElement;
     playerPicker: HTMLDivElement;
     botElemnt: HTMLDivElement;
+    controls: HTMLDivElement;
 }
